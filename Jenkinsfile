@@ -26,14 +26,13 @@ node{
   }
     
     stage('Deploy to Tomcat'){
-    sh label: '', script: 'mv target/*.war target/petclinic.war'
-        
+         
     sshagent(['linux-host']) {
     sh "${stopTomcat}"
         
     sh 'ssh ec2-user@172.31.17.253 rm -rf /opt/apache-tomcat-8.5.38/webapps/petclinic*'
     sh "${copyWar}"
-	sh "${startTomcat}"
+    sh "${startTomcat}"
     }
   }
     
