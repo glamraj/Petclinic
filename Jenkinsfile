@@ -33,6 +33,8 @@ node{
     sh 'ssh ec2-user@172.31.17.253 rm -rf /opt/apache-tomcat-8.5.38/webapps/petclinic*'
     sh "${copyWar}"
     sh "${startTomcat}"
+        
+    echo 'Hello-- Success.. Deployed'
     }
   }
     
