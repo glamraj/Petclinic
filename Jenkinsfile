@@ -22,7 +22,7 @@ node{
   }
     
     stage('JUnit Publisher'){ 
-    junit allowEmptyResults: true, testResults: '/var/lib/jenkins/workspace/Petclinic/target/surefire-reports/**.xml'
+    junit allowEmptyResults: true, testResults: 'Petclinic/target/surefire-reports/*.xml'
   }
     
     stage('Deploy to Tomcat'){
