@@ -3,10 +3,10 @@ properties([pipelineTriggers([pollSCM('')])])
 node{
     
    //pipeline varibale definition
-   def stopTomcat = "ssh ${tomcatUser}@${tomcatIp} /opt/tomcat/bin/shutdown.sh"
-   def startTomcat = "ssh ${tomcatUser}@${tomcatIp} /opt/tomcat/bin/startup.sh"
    def tomcatIp = '172.31.20.233'
    def tomcatUser = 'ec2-user'
+   def stopTomcat = "ssh ${tomcatUser}@${tomcatIp} /opt/tomcat/bin/shutdown.sh"
+   def startTomcat = "ssh ${tomcatUser}@${tomcatIp} /opt/tomcat/bin/startup.sh"
    def copyWar = "scp -o StrictHostKeyChecking=no target/petclinic.war ${tomcatUser}@${tomcatIp}:/opt/tomcat/webapps/"
     
     stage('Introduction'){
