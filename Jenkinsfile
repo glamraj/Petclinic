@@ -7,7 +7,7 @@ node{
    def tomcatUser = 'ec2-user'
    def stopTomcat = "ssh ${tomcatUser}@${tomcatIp} /opt/tomcat/bin/shutdown.sh"
    def startTomcat = "ssh ${tomcatUser}@${tomcatIp} /opt/tomcat/bin/startup.sh"
-   def copyWar = "scp -o StrictHostKeyChecking=no target/petclinic.war ${tomcatUser}@${tomcatIp}:/opt/tomcat/webapps/"
+   def copyWar = "scp -o StrictHostKeyChecking=no target/petclinic.war ${tomcatUser}@${tomcatIp}:/opt/tomcat/webapps/petclinic.war"
     
     stage('Introduction'){
         
