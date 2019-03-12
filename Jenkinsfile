@@ -35,6 +35,18 @@ node{
     }
     sh 'docker push dockerglam/petclinic:1.0'
  }
+    
+    stage('Remove Previous Container'){
+	try{
+		def dockerRm = 'docker rm -f myclinic'
+		sshagent(['Linux-Server']) {
+			sh "ssh -o StrictHostKeyChecking=no ${tomcatUser}@${tomcatIp} ${dockerRm}"
+		}
+	}catch(error){
+		//  do nothing if there is an exception
+	}
+ }
+    
         
     stage('Deploy to Dev Environment'){
     
