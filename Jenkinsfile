@@ -38,7 +38,7 @@ node{
         
     stage('Deploy to Dev Environment'){
     
-    def dockerRun = 'docker run -d -p 8080:8080 --name myclinic dockerglam/petclinic:1.0'      
+    def dockerRun = 'docker run -d -p 9000:8080 --name myclinic dockerglam/petclinic:1.0'      
     sshagent(['Linux-Server']) {
     sh "ssh -o StrictHostKeyChecking=no ${tomcatUser}@${tomcatIp} ${dockerRun}"
     }
