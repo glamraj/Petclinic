@@ -39,8 +39,9 @@ node{
     stage('Remove Previous Container'){
 	try{
 		def dockerRm = 'docker rm -f myclinic'
+                def dockerRmI = 'docker rmi -f docker.io/dockerglam/petclinic:1.0'
 		sshagent(['Linux-Server']) {
-			sh "ssh -o StrictHostKeyChecking=no ${tomcatUser}@${tomcatIp} ${dockerRm}"
+			sh "ssh -o StrictHostKeyChecking=no ${tomcatUser}@${tomcatIp} ${dockerRm} ${dockerRmI}"
 		}
 	}catch(error){
 		//  do nothing if there is an exception
