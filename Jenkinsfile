@@ -29,10 +29,10 @@ node{
     stage('Deploy to Tomcat'){
         
         sshagent(['Linux-Server']) {
-        sh "${stopTomcat}"
-        sh 'ssh ec2-user@172.31.20.233 rm -rf /opt/tomcat/webapps/petclinic*'
+       // sh "${stopTomcat}"
+       // sh 'ssh ec2-user@172.31.20.233 rm -rf /opt/tomcat/webapps/petclinic*'
         sh "${copyWar}"
-        sh "${startTomcat}"
+      //  sh "${startTomcat}"
     }
   }
     
