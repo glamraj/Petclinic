@@ -28,4 +28,12 @@ node{
     sh 'docker build -t dockerglam/petclinic:1.0 .'
  }
     
+    stage('Push to Docker Hub'){
+ 
+     withCredentials([string(credentialsId: 'DockerPwd', variable: 'DockerHubPwd')]) {
+        sh "docker login -u dockerglam -p ${DockerHubPwd}"
+     }
+	 sh 'docker push dockerglam/petclinic:1.0'
+ }
+    
 }
