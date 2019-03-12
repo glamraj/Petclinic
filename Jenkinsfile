@@ -2,11 +2,18 @@ properties([pipelineTriggers([pollSCM('')])])
 
 node{
     
+   //pipeline varibale definition
+   def tomcatIp = '172.31.20.233'
+   def tomcatUser = 'ec2-user'
+   def copyWar = "scp -o StrictHostKeyChecking=no target/petclinic.war ${tomcatUser}@${tomcatIp}:/opt/tomcat/webapps/"
+    
     stage('Introduction'){
+        
     echo 'Hello-- Welcome to Pipeline Demo'
   }
     
     stage('SCM Checkout'){
+        
     git 'https://github.com/glamraj/Petclinic.git'
   }
 
@@ -16,5 +23,18 @@ node{
     def mvnHome = tool name: 'M2', type: 'maven'
     sh "${mvnHome}/bin/mvn clean verify package"
   }
-       
+    
+    stage('Deploy to Tomcat'){
+        
+        sshagent(['Linux-Server']) {
+        sh label: '', script: 'tomcatdown'        
+        sh 'ssh ec2-user@172.31.20.233 rm -rf /opt/tomcat/webapps/petclinic*'
+        sh "${copyWar}"
+        sh label: '', script: 'tomcatup'
+    }
+  }
+    
+    stage('Finish'){
+    echo 'Hello-- Success.. Deployed'
+  }   
 }
