@@ -11,7 +11,7 @@ node{
   }
 
     stage('Maven Build'){ 
-    tool name: 'M3', type: 'maven'
+    tool name: 'M2', type: 'maven'
     sh label: '', script: 'mvn clean package'
   }
        
