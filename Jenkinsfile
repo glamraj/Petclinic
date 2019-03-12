@@ -14,9 +14,5 @@ node{
     tool name: 'M3', type: 'maven'
     sh label: '', script: 'mvn clean package'
   }
-    
-    stage('JUnit Publisher'){ 
-    junit allowEmptyResults: true, testResults: 'Petclinic/target/surefire-reports/*.xml'
-  }
        
 }
