@@ -3,6 +3,8 @@ properties([pipelineTriggers([pollSCM('')])])
 node{
     
    //pipeline varibale definition
+   def stopTomcat = "ssh ${tomcatUser}@${tomcatIp} /opt/tomcat/bin/shutdown.sh"
+   def startTomcat = "ssh ${tomcatUser}@${tomcatIp} /opt/tomcat/bin/startup.sh"
    def tomcatIp = '172.31.20.233'
    def tomcatUser = 'ec2-user'
    def copyWar = "scp -o StrictHostKeyChecking=no target/petclinic.war ${tomcatUser}@${tomcatIp}:/opt/tomcat/webapps/"
@@ -27,10 +29,10 @@ node{
     stage('Deploy to Tomcat'){
         
         sshagent(['Linux-Server']) {
-        sh label: '', script: 'tomcatdown'        
+        sh "${stopTomcat}"
         sh 'ssh ec2-user@172.31.20.233 rm -rf /opt/tomcat/webapps/petclinic*'
         sh "${copyWar}"
-        sh label: '', script: 'tomcatup'
+        sh "${startTomcat}"
     }
   }
     
