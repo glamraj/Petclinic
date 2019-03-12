@@ -2,7 +2,6 @@ properties([pipelineTriggers([pollSCM('')])])
 
 node{
     
-   
     stage('Introduction'){
     echo 'Hello-- Welcome to Pipeline Demo'
   }
