@@ -23,7 +23,7 @@ node{
     
     //get Maven home path
     def mvnHome = tool name: 'M2', type: 'maven'
-    sh "${mvnHome}/bin/mvn clean verify package"
+    sh "${mvnHome}/bin/mvn clean package"
   }
     
     stage('Deploy to Tomcat'){
