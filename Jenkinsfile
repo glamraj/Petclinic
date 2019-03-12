@@ -22,4 +22,9 @@ node{
     def mvnHome = tool name: 'M2', type: 'maven'
     sh "${mvnHome}/bin/mvn clean package"
   }
+    
+    stage('Build Docker Imager'){
+   sh 'docker build -t dockerglam/petclinic:1.0 .'
+ }
+    
 }
