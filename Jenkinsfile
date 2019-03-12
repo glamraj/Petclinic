@@ -24,7 +24,8 @@ node{
   }
     
     stage('Build Docker Imager'){
-   sh 'docker build -t dockerglam/petclinic:1.0 .'
+    sh 'sudo service docker start'
+    sh 'docker build -t dockerglam/petclinic:1.0 .'
  }
     
 }
