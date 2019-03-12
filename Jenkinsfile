@@ -11,8 +11,9 @@ node{
   }
 
     stage('Maven Build'){ 
-    tool name: 'M2', type: 'maven'
-    sh label: '', script: 'mvn clean package'
+    //get Maven home path
+    def mvnHome = tool name: 'M2', type: 'maven'
+    sh "${mvnHome}/bin/mvn clean package"
   }
        
 }
