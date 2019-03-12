@@ -30,10 +30,18 @@ node{
     
     stage('Push to Docker Hub'){
  
-     withCredentials([string(credentialsId: 'DockerPwd', variable: 'DockerHubPwd')]) {
-        sh "docker login -u dockerglam -p ${DockerHubPwd}"
-     }
-	 sh 'docker push dockerglam/petclinic:1.0'
+    withCredentials([string(credentialsId: 'DockerPwd', variable: 'DockerHubPwd')]) {
+    sh "docker login -u dockerglam -p ${DockerHubPwd}"
+    }
+    sh 'docker push dockerglam/petclinic:1.0'
+ }
+        
+    stage('Deploy to Dev Environment'){
+    
+    def dockerRun = 'docker run -d -p 8080:8080 --name myclinic dockerglam/petclinic:1.0'      
+    sshagent(['Linux-Server']) {
+    sh "ssh -o StrictHostKeyChecking=no ${tomcatUser}@${tomcatIp} ${dockerRun}"
+    }
  }
     
 }
