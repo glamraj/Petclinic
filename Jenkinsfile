@@ -26,48 +26,10 @@ node{
     sh "${mvnHome}/bin/mvn clean package"
   }
     
-    stage('Build Docker Imager'){
+    stage('Anisble Playbook- publish warfile in Host machine'){
   
-    sh "docker build -t dockerglam/petclinic:${BUILD_ID} ."
-    sh "docker tag dockerglam/petclinic:${BUILD_ID} dockerglam/petclinic:latest"
- }
-    
-    stage('Push to Docker Hub'){
- 
-    withCredentials([string(credentialsId: 'DockerPwd', variable: 'DockerHubPwd')]) {
-    sh "docker login -u dockerglam -p ${DockerHubPwd}"
-    }
-    sh "docker push dockerglam/petclinic:${BUILD_ID}"
-    sh 'docker push dockerglam/petclinic:latest'
-    
-    //destroy local images
-    sh "docker rmi dockerglam/petclinic:${BUILD_ID}"
-    sh 'docker rmi dockerglam/petclinic:latest'
- }
-    
-    stage('Remove Previous Container'){
-    
-	try{
-		def dockerRm = 'docker rm -f myclinic'
-    def dockerRmI = 'docker rmi docker.io/dockerglam/petclinic:latest'
-		
-    sshagent(['Linux-Server']) {
-    sh "ssh -o StrictHostKeyChecking=no ${tomcatUser}@${tomcatIp} ${dockerRm}"
-    sh "ssh -o StrictHostKeyChecking=no ${tomcatUser}@${tomcatIp} ${dockerRmI}"
-		}
-	}
-  catch(error){
-		//  do nothing if there is an exception
-	}
- }
-    
+    sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '//opt//ansible//warfiles', remoteDirectorySDF: false, removePrefix: '/target/', sourceFiles: '/target/*.war'), 
+                                                                                         sshTransfer(cleanRemote: false, excludes: '', execCommand: 'ansible-playbook /opt/ansible/playbooks/copywarfile.yml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+  }
         
-    stage('Deploy to Dev Environment'){
-    
-    def dockerRun = 'docker run -d -p 9000:8080 --name myclinic dockerglam/petclinic:latest'
-    sshagent(['Linux-Server']) {
-    sh "ssh -o StrictHostKeyChecking=no ${tomcatUser}@${tomcatIp} ${dockerRun}"
-    }
- }
-    
 }
