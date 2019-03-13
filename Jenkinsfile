@@ -5,7 +5,21 @@ node{
    //pipeline varibale definition
    def tomcatIp = '172.31.20.233'
    def tomcatUser = 'ec2-user'
-   def BUILD_ID_PREV = $BUILD_ID - 1
+   
+   stage('Build parameters') {
+        properties(
+            [parameters(
+                [string(
+                    defaultValue: '***', 
+                    description: '', 
+                    name: 'version', 
+                    trim: false)
+                ])
+            ])
+    }
+    echo env.BUILD_NUMBER
+    def BUILD_ID = env.BUILD_NUMBER
+    def BUILD_ID_PREV = ${BUILD_ID} - 1
     
     stage('Introduction'){
         
