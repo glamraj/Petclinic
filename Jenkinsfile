@@ -8,7 +8,6 @@ node{
    
    echo env.BUILD_NUMBER
    def BUILD_ID = env.BUILD_NUMBER
-   def BUILD_ID_PREV = ${BUILD_ID} - 1
     
     stage('Introduction'){
         
@@ -29,8 +28,8 @@ node{
     
     stage('Build Docker Imager'){
   
-    sh 'docker build -t dockerglam/petclinic:$BUILD_ID .'
-    sh 'docker tag dockerglam/petclinic:$BUILD_ID dockerglam/petclinic:latest'
+    sh "docker build -t dockerglam/petclinic:${BUILD_ID} ."
+    sh "docker tag dockerglam/petclinic:${BUILD_ID} dockerglam/petclinic:latest"
  }
     
     stage('Push to Docker Hub'){
@@ -38,11 +37,11 @@ node{
     withCredentials([string(credentialsId: 'DockerPwd', variable: 'DockerHubPwd')]) {
     sh "docker login -u dockerglam -p ${DockerHubPwd}"
     }
-    sh 'docker push dockerglam/petclinic:$BUILD_ID'
+    sh "docker push dockerglam/petclinic:${BUILD_ID}"
     sh 'docker push dockerglam/petclinic:latest'
     
     //destroy local images
-    sh 'docker rmi dockerglam/petclinic:$BUILD_ID'
+    sh "docker rmi dockerglam/petclinic:${BUILD_ID}"
     sh 'docker rmi dockerglam/petclinic:latest'
  }
     
@@ -53,7 +52,7 @@ node{
     def dockerRmI = 'docker rmi docker.io/dockerglam/petclinic:latest'
 		
     sshagent(['Linux-Server']) {
-		sh "ssh -o StrictHostKeyChecking=no ${tomcatUser}@${tomcatIp} ${dockerRm}"
+    sh "ssh -o StrictHostKeyChecking=no ${tomcatUser}@${tomcatIp} ${dockerRm}"
     sh "ssh -o StrictHostKeyChecking=no ${tomcatUser}@${tomcatIp} ${dockerRmI}"
 		}
 	}
