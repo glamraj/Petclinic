@@ -28,7 +28,7 @@ node{
     
     stage('Anisble Playbook- publish warfile in Host machine'){
     
-    sh label: '', script: 'cp /var/lib/jenkins/workspace/Ansible_deploy_Tomcat/target/petclinic.war /opt/ansible/warfiles'
+    sh label: '', script: 'cp /var/lib/jenkins/workspace/Pipeline_All/target/petclinic.war /opt/ansible/warfiles'
   
     sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'ansible-playbook /opt/ansible/playbooks/copywarfile.yml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
   }
