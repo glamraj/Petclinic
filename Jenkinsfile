@@ -1,7 +1,7 @@
 properties([pipelineTriggers([pollSCM('')])])
 
 node{
-/*
+
    //pipeline varibale definition
    def tomcatIp = '172.31.20.233'
    def tomcatUser = 'ec2-user'
@@ -18,7 +18,7 @@ node{
         
     git 'https://github.com/glamraj/Petclinic.git'
   }
-
+/*
     stage('Maven Build'){ 
     
     //get Maven home path
