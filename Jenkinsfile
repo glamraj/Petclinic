@@ -1,7 +1,7 @@
-/*properties([pipelineTriggers([pollSCM('')])])
+properties([pipelineTriggers([pollSCM('')])])
 
 node{
-
+/*
    //pipeline varibale definition
    def tomcatIp = '172.31.20.233'
    def tomcatUser = 'ec2-user'
